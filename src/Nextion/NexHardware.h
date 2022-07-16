@@ -28,7 +28,7 @@
  * 
  * @return true if success, false for failure. 
  */
-bool nexInit();
+bool nexInit(int8_t rxPin = (int8_t)(-1), int8_t txPin = (int8_t)(-1));
 
 /**
  * Listen touch event and calling callbacks attached before.

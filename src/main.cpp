@@ -32,7 +32,7 @@ double fRand(double fMin, double fMax)
 }
 
 void setup() {
-  nexInit();
+  nexInit(RX_PIN, TX_PIN);
   page0.show();
   // put your setup code here, to run once:
 }
