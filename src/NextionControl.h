@@ -15,8 +15,8 @@ bool alertPage = false;
 class NexValue {
   private:
     bool overflow = false;
-    float min;
-    float max;
+    double min;
+    double max;
     String name;
     int precision;
     bool display;
@@ -31,7 +31,7 @@ class NexValue {
       meter = new NexText(pid, cid, variable);
     }
 
-    NexValue(String name, float min, float max, int precision) {
+    NexValue(String name, double min, double max, int precision) {
       this->min = min;
       this->max = max;
       this->name = name;
@@ -41,7 +41,7 @@ class NexValue {
       amount++;
     }
 
-    NexValue(String name, float min, float max, int precision, uint8_t pid, uint8_t cid, const char *variable) {
+    NexValue(String name, double min, double max, int precision, uint8_t pid, uint8_t cid, const char *variable) {
       this->min = min;
       this->max = max;
       this->name = name;
@@ -82,7 +82,7 @@ class NexValue {
       }
     }
 
-    void alert(float value) {
+    void alert(double value) {
       char txt[10];
       sprintf(txt,"%.*f", precision, value);
       
