@@ -18,25 +18,55 @@ class NexValue {
     float min;
     float max;
     String name;
+    int precision;
     bool display;
 
-    NexText *t;
+    NexText *meter;
   public:
     static int amount;
 
-    NexValue(String name, float min, float max, bool display = false, uint8_t pid = 0, uint8_t cid = 0, const char *variable = "") {
+    NexValue(uint8_t pid = 0, uint8_t cid = 0, const char *variable = "") {
+      alertPage = false;
+      amount++;
+      meter = new NexText(pid, cid, variable);
+    }
+
+    NexValue(String name, float min, float max, int precision) {
       this->min = min;
       this->max = max;
       this->name = name;
-      this->display = display;
+      this->display = false;
+      this->precision = precision;
       alertPage = false;
       amount++;
-      if (display) {
-        t = new NexText(pid, cid, variable);
+    }
+
+    NexValue(String name, float min, float max, int precision, uint8_t pid = 0, uint8_t cid = 0, const char *variable = "") {
+      this->min = min;
+      this->max = max;
+      this->name = name;
+      this->display = true;
+      this->precision = precision;
+      alertPage = false;
+      amount++;
+      meter = new NexText(pid, cid, variable);
+    }
+
+    void evaluate(const char *value) {
+      if (overflow) {
+        overflow = false;
+        isAlertPage = false;
+      } 
+      if (!isAlertPage) {
+        if (alertPage) {
+          page0.show();
+          alertPage = false;
+        }
+        meter->setText(value);
       }
     }
 
-    void evaluate(float value) {
+    void evaluate(double value) {
       if (min > value || value > max) {
         overflow = true;
         isAlertPage = true;
@@ -54,8 +84,7 @@ class NexValue {
 
     void alert(float value) {
       char txt[10];
-      memset(txt, 0, sizeof(txt));
-      itoa(value, txt, 10);
+      sprintf(txt,"%.*f", precision, value);
       
       if (!alertPage) {
         page1.show();
@@ -65,16 +94,15 @@ class NexValue {
       alertValue.setText(txt);
     }
 
-    void show(float value) {
+    void show(double value) {
       char txt[10];
-      memset(txt, 0, sizeof(txt));
-      itoa(value, txt, 10);
+      sprintf(txt,"%.*f", precision, value);
       
       if (alertPage) {
         page0.show();
         alertPage = false;
       }
-      t->setText(txt);
+      meter->setText(txt);
     }
 };
 

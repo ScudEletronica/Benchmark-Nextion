@@ -2,19 +2,41 @@
 #include "Nextion/Nextion.h"
 #include "NextionControl.h"
 
-int i = 0;
-
 #define TX_PIN 23
 #define RX_PIN 36
 
-NexValue meter = NexValue("", 0, 100, true, 0, 3, "t0");
+NexValue meter = NexValue(0, 3, "t0");
+NexValue meter1 = NexValue("Velocidade", 0, 100, 2, 0, 4, "t1");
+NexValue meter2 = NexValue("RPM", 0, 200, 0, 6, 0, "t2");
+NexValue meter3 = NexValue("Bateria", 0, 15, 1, 0, 5, "t3");
+
+const char* randomM(char* txt){
+  long r = random(-1, 5);
+  if (r == -1) return "R";
+  else if (r == 0) return "N";
+  else {
+    sprintf(txt,"%d", r);
+    return txt;
+  }
+}
+
+double fRand(double fMin, double fMax)
+{
+  double f = (double)rand() / RAND_MAX;
+  return fMin + f * (fMax - fMin);
+}
 
 void setup() {
   nexInit();
+  page0.show();
   // put your setup code here, to run once:
 }
 
 void loop() {
-  meter.evaluate(random(100));
+  char txt[10];
+  meter.evaluate(randomM(txt));
+  meter1.evaluate(fRand(0, 100));
+  meter2.evaluate(random(0, 200));
+  meter3.evaluate(fRand(0, 15));
   // put your main code here, to run repeatedly:
 }

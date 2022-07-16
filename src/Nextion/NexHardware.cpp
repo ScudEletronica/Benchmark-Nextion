@@ -223,7 +223,7 @@ bool nexInit()
     bool ret2 = false;
     
     dbSerialBegin(9600);
-     nexSerial.begin(9600,SERIAL_8N1,36,23);
+    nexSerial.begin(9600,SERIAL_8N1,36,23);
     // Serial2.begin(9600,SERIAL_8N1,36,23);
     sendCommand("");
     sendCommand("bkcmd=1");
