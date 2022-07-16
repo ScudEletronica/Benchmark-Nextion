@@ -41,7 +41,7 @@ class NexValue {
       amount++;
     }
 
-    NexValue(String name, float min, float max, int precision, uint8_t pid = 0, uint8_t cid = 0, const char *variable = "") {
+    NexValue(String name, float min, float max, int precision, uint8_t pid, uint8_t cid, const char *variable) {
       this->min = min;
       this->max = max;
       this->name = name;
